@@ -1,6 +1,8 @@
 from pymongo.database import Database
+from error_handler import mongo_error_handler
 
 
+@mongo_error_handler
 def insert_default_data(db: Database) -> None:
     db.cats.insert_one(
         {
