@@ -1,13 +1,6 @@
 import psycopg2
 from contextlib import contextmanager
-
-DATABASE_CONFIG = {
-    "database": "hw03",
-    "user": "postgres",
-    "password": "567234",
-    "host": "localhost",
-    "port": "5432",
-}
+from config import DATABASE_CONFIG
 
 
 @contextmanager

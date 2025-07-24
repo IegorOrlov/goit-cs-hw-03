@@ -1,22 +1,8 @@
 from psycopg2 import Error
 from ps_connection import create_connection
 
-def update_task(conn, parameters):
-    sql = """
-    UPDATE tasks
-    SET title = %s, description = %s
-    WHERE id = %s;
-    """
-    cur = conn.cursor()
-    try:
-        cur.execute(sql, parameters)
-        conn.commit()
-    except Error as e:
-        print(e)
-    finally:
-        cur.close()
 
-def update_task_status(conn, parameters):
+def update_task_status(conn, status_id, task_id):
     sql = """
     UPDATE tasks
     SET status_id = %s
@@ -24,17 +10,35 @@ def update_task_status(conn, parameters):
     """
     cur = conn.cursor()
     try:
-        cur.execute(sql, parameters)
+        cur.execute(sql, (status_id, task_id))
         conn.commit()
     except Error as e:
         print(e)
     finally:
         cur.close()
 
+
+def update_user_name(conn, user_id, new_name):
+    sql = """
+    UPDATE users
+    SET fullname = %s
+    WHERE id = %s;
+    """
+    cur = conn.cursor()
+    try:
+        cur.execute(sql, (new_name, user_id))
+        conn.commit()
+    except Error as e:
+        print(e)
+    finally:
+        cur.close()
+
+
 def perform_update_queries():
     with create_connection() as conn:
-        update_task(conn, ("Updated Title", "Updated Description", 1))
-        update_task_status(conn, (2, 1))  # статус_id = 2, task_id = 1
+        update_task_status(conn, 2, 1)  # Set task id=1 status to 'in progress'
+        update_user_name(conn, 1, "New User Name")
+
 
 if __name__ == "__main__":
     perform_update_queries()

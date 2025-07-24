@@ -5,3 +5,4 @@ __pycache__
 *.log
 /flask-docker-app
 postgres-data
+*/config.py
